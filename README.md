@@ -18,14 +18,12 @@ Each card combines data from multiple sources in one place, so you don't have to
 Jump straight to streaming services, stores, review sites, databases, social profiles and official pages. You can also add your own link buttons with URL templates.
 
 **Six topics**
-
     **Movies & TV:** IMDb and Rotten Tomatoes style ratings, Metacritic scores, Cinemascore, cast and crew, awards, box office, episode lists, and a full Credits list for people with category filters
     **Games:** Metacritic scores, system requirements, and prices across Steam, PlayStation Store and Xbox / Microsoft Store, plus quick links to deal sites
     **Music:** artists, albums, tracks, lyrics, short previews and Grammy Awards
     **Football:** players, teams and coaches with Transfermarkt market value, transfers, honours and stats
     **Books:** book and author details, ratings, series and adaptations
     **Athletes:** country, team, medals, pro stats and recent games
-
 
 **Built to be customized**
 
