@@ -1,6 +1,6 @@
 # QuickCard
 
-**Install:** [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/quickcard/)
+* **Install:** [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/quickcard/)
 
 **About this extension**
 
@@ -20,17 +20,17 @@ Jump straight to streaming services, stores, review sites, databases, social pro
 
 **Six topics**
 
- **Movies & TV:** IMDb and Rotten Tomatoes style ratings, Metacritic scores, Cinemascore, cast and crew, awards, box office, episode lists, and a full Credits list for people with category filters
+ * **Movies & TV:** IMDb and Rotten Tomatoes style ratings, Metacritic scores, Cinemascore, cast and crew, awards, box office, episode lists, and a full Credits list for people with category filters
  
- **Games:** Metacritic scores, system requirements, and prices across Steam, PlayStation Store and Xbox / Microsoft Store, plus quick links to deal sites
+ * **Games:** Metacritic scores, system requirements, and prices across Steam, PlayStation Store and Xbox / Microsoft Store, plus quick links to deal sites
  
- **Music:** artists, albums, tracks, lyrics, short previews and Grammy Awards
+ * **Music:** artists, albums, tracks, lyrics, short previews and Grammy Awards
  
- **Football:** players, teams and coaches with Transfermarkt market value, transfers, honours and stats
+ * **Football:** players, teams and coaches with Transfermarkt market value, transfers, honours and stats
  
- **Books:** book and author details, ratings, series and adaptations
+ * **Books:** book and author details, ratings, series and adaptations
  
- **Athletes:** country, team, medals, pro stats and recent games
+ * **Athletes:** country, team, medals, pro stats and recent games
 
 
 **Built to be customized**
