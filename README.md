@@ -3,6 +3,7 @@
 **Install:** [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/quickcard/)
 
 **About this extension**
+
 QuickCard pulls information from several sites at once and shows it in one fast, compact card, with quick links to the related sites you actually use. Type a title or name in the toolbar, in your own language, and get the answer without opening a single tab.
 
 **Multilingual search**
@@ -30,6 +31,7 @@ Jump straight to streaming services, stores, review sites, databases, social pro
  **Books:** book and author details, ratings, series and adaptations
  
  **Athletes:** country, team, medals, pro stats and recent games
+
 
 **Built to be customized**
 
