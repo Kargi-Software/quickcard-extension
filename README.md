@@ -35,13 +35,13 @@ Jump straight to streaming services, stores, review sites, databases, social pro
 
 **Built to be customized**
 
- Turn each topic on or off
+ * Turn each topic on or off
  
- Every topic has its own settings tab where you choose exactly which info and links appear
+ * Every topic has its own settings tab where you choose exactly which info and links appear
  
- Choose a compact Mini card or a detailed Full card
+ * Choose a compact Mini card or a detailed Full card
  
- Run QuickCard on all sites except a blacklist, or only on a whitelist you define
+* Run QuickCard on all sites except a blacklist, or only on a whitelist you define
 
 
 Also works by selecting text on any page, from the right-click menu, and by hovering supported links.
