@@ -26,7 +26,6 @@ Jump straight to streaming services, stores, review sites, databases, social pro
     **Athletes:** country, team, medals, pro stats and recent games
 
 **Built to be customized**
-
     Turn each topic on or off
     Every topic has its own settings tab where you choose exactly which info and links appear
     Choose a compact Mini card or a detailed Full card
