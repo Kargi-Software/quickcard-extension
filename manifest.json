@@ -1,0 +1,137 @@
+{
+  "manifest_version": 3,
+  "name": "QuickCard",
+  "version": "2.0.0",
+  "description": "Quick info cards for movies & TV, games, music, football, books, and athletes — right on the page you're browsing.",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "96": "icons/icon-96.png",
+    "128": "icons/icon-128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "96": "icons/icon-96.png"
+    },
+    "default_title": "QuickCard"
+  },
+  "permissions": [
+    "storage",
+    "contextMenus",
+    "tabs",
+    "alarms",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://v2.sg.media-imdb.com/*",
+    "https://www.imdb.com/*",
+    "https://m.media-amazon.com/*",
+    "https://www.boxofficemojo.com/*",
+    "*://*.icheckmovies.com/*",
+    "https://api.tenrai.org/*",
+    "https://api.tvmaze.com/*",
+    "https://api.kargi.top/*",
+    "https://awapi.kargi.top/*",
+    "https://v3-cinemeta.strem.io/*",
+    "https://whatson-api.onrender.com/*",
+    "https://query.wikidata.org/*",
+    "https://www.wikidata.org/*",
+    "https://*.wikipedia.org/*",
+    "https://images.metahub.space/*",
+    "https://translate.googleapis.com/*",
+    "https://lingva.ml/*",
+    "https://api.mymemory.translated.net/*",
+    "https://suggestqueries.google.com/*",
+    "https://www.gamespot.com/*",
+    "https://store.steampowered.com/*",
+    "https://web.np.playstation.com/*",
+    "https://www.microsoft.com/*",
+    "https://displaycatalog.mp.microsoft.com/*",
+    "https://tmapi.transfermarkt.technology/*",
+    "https://*.transfermarkt.com/*",
+    "https://tmssl.akamaized.net/*",
+    "https://api.deezer.com/*",
+    "*://*.dzcdn.net/*",
+    "https://musicbrainz.org/*",
+    "https://api.lyrics.ovh/*",
+    "https://www.theaudiodb.com/*",
+    "https://openlibrary.org/*",
+    "https://covers.openlibrary.org/*",
+    "https://site.api.espn.com/*",
+    "https://site.web.api.espn.com/*",
+    "https://statsapi.mlb.com/*",
+    "https://api.jolpi.ca/*",
+    "https://docs.google.com/*",
+    "https://www.ea.com/*",
+    "https://webapp.cinemascore.com/*"
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js",
+    "scripts": [
+      "background/core.js",
+      "background/translate.js",
+      "background/wikidata-links.js",
+      "background/subscription-catalog.js",
+      "background/movies-data.js",
+      "background/store-prices.js",
+      "background/football-data.js",
+      "background/games-data.js",
+      "background/books-data.js",
+      "background/music-data.js",
+      "background/wikidata-sports.js",
+      "background/wikipedia-sports.js",
+      "background/sports-data.js",
+      "background.js"
+    ]
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "icons/icon-48.png",
+        "icons/sites/*.svg",
+        "icons/consoles/*.svg"
+      ],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ]
+    }
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "content/core.js",
+        "content/translate.js",
+        "content/disambiguation.js",
+        "content/movies-pack.js",
+        "content/games-pack.js",
+        "content/football-pack.js",
+        "content/books-pack.js",
+        "content/music-pack.js",
+        "content/sports-pack.js",
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "imdb-quickinfo@example.local",
+      "strict_min_version": "109.0"
+    }
+  },
+  "homepage_url": "https://kargi.top/"
+}

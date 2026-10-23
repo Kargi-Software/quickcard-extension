@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>QuickCard</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    html {
+      overflow-x: hidden;
+    }
+    body {
+      margin: 0;
+      min-width: 380px;
+      /* Default (Movies & TV's Full-card width, 468px + margin). This is
+         only the value used before popup.js's boot() runs - from then on,
+         popup.js's applyPopupWidthFor() overrides both max-width AND
+         width inline per active pack (see popup.js) - width, not just
+         max-width, because Chrome/Firefox auto-size the actual popup
+         *window* off the body's real box, not off what it could
+         theoretically grow to; a max-width alone lets the window stay
+         narrow if the browser happened to measure it before the wider
+         pack's CSS class was in effect (real bug - Amin: "عرضش بزرگ
+         نمیشه و 380 میمونه" - the width doesn't grow and stays at 380,
+         i.e. the min-width above, meaning the window's real measured
+         width never advanced past this default). Keep this in sync if
+         Movies' Full width ever changes. */
+      max-width: 528px;
+      min-height: 90px;
+      font: 13px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: #ffffff;
+      color: #17171a;
+      position: relative;
+      overflow-x: hidden;
+      overflow-y: visible;
+    }
+    /* Once a search result is showing, hide the search bar entirely and
+       let the result card flow naturally in the body (instead of
+       position:fixed) - this makes the extension popup auto-size to the
+       result's real height instead of clipping it, and gives the "the box
+       really opened right under the icon" feel with nothing behind it. */
+    body.qc-inline-result .topbar,
+    body.qc-inline-result .search-row,
+    body.qc-inline-result #suggestBox {
+      display: none !important;
+    }
+    body.qc-inline-result .qc-popup {
+      position: static !important;
+      left: auto !important;
+      top: auto !important;
+      margin: 8px auto !important;
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      padding: 6px 8px;
+      gap: 6px;
+    }
+    .packs {
+      display: none; /* only shown once more than one pack is active */
+      gap: 4px;
+      align-items: center;
+    }
+    .packs button {
+      border: none;
+      background: #f1f2f4;
+      border-radius: 6px;
+      padding: 3px;
+      cursor: pointer;
+      line-height: 0;
+    }
+    .packs button.active {
+      background: #ffffff;
+      box-shadow: 0 0 0 1.5px rgba(59,109,240,0.5) inset;
+    }
+    .packs img {
+      width: 18px;
+      height: 18px;
+      display: block;
+    }
+    .spacer {
+      flex: 1;
+    }
+    .icon-btn {
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 15px;
+      color: #17171a;
+      padding: 4px 6px;
+      border-radius: 6px;
+      line-height: 1;
+    }
+    .icon-btn:hover {
+      background: #f1f2f4;
+    }
+    .search-row {
+      padding: 0 10px 10px;
+      display: flex;
+      gap: 6px;
+      position: relative;
+    }
+    #suggestBox {
+      margin: -4px 10px 0;
+      background: #ffffff;
+      border: 1px solid #ececf0;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      max-height: 160px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      display: none;
+    }
+    #suggestBox.show {
+      display: block;
+      margin-bottom: 8px;
+    }
+    .suggest-item {
+      padding: 6px 10px;
+      font-size: 12.5px;
+      cursor: pointer;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .suggest-item:hover,
+    .suggest-item.active {
+      background: #f1f2f4;
+    }
+    #searchInput {
+      flex: 1;
+      box-sizing: border-box;
+      padding: 8px 10px;
+      font-size: 13px;
+      border: 1px solid #ececf0;
+      border-radius: 8px;
+      outline: none;
+    }
+    #searchBtn {
+      flex-shrink: 0;
+      border: 1px solid #ececf0;
+      border-radius: 8px;
+      background: #f7f7f8;
+      font-size: 15px;
+      padding: 0 10px;
+    }
+    #searchBtn:hover {
+      background: #ececf0;
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="packs" id="packsRow"></div>
+    <div class="spacer"></div>
+    <button class="icon-btn" id="settingsBtn" title="Settings">⚙</button>
+    <button class="icon-btn" id="closeBtn" title="Close">×</button>
+  </div>
+  <div class="search-row">
+    <input type="text" id="searchInput" placeholder="Search movies &amp; TV..." autocomplete="off">
+    <button class="icon-btn" id="searchBtn" title="Search">🔍</button>
+  </div>
+  <div id="suggestBox"></div>
+
+  <script src="content/core.js"></script>
+  <script src="content/translate.js"></script>
+  <script src="content/disambiguation.js"></script>
+  <script src="content/movies-pack.js"></script>
+  <script src="content/games-pack.js"></script>
+  <script src="content/football-pack.js"></script>
+  <script src="content/books-pack.js"></script>
+  <script src="content/music-pack.js"></script>
+  <script src="content/sports-pack.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,1211 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>QuickCard - Movies and TV Info - Settings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      font: 13px/1.4 Arial, sans-serif;
+      color: #222;
+      background: #fff;
+    }
+    h1 {
+      font-size: 17px;
+      margin: 0 0 14px;
+      padding: 16px 20px 0;
+    }
+    h2 {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      color: #555;
+      margin: 16px 0 6px;
+    }
+    .layout {
+      display: flex;
+      align-items: flex-start;
+    }
+    .sidebar {
+      width: 160px;
+      flex-shrink: 0;
+      padding: 4px 10px 20px;
+      box-sizing: border-box;
+      border-right: 1px solid #eee;
+    }
+    .tab-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 8px 10px;
+      margin: 2px 0;
+      border: none;
+      background: none;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      color: #333;
+    }
+    .tab-btn:hover {
+      background: #f2f2f2;
+    }
+    .tab-btn.active {
+      background: #fff2b8;
+      font-weight: 700;
+      color: #4a3700;
+    }
+    .tab-btn:disabled {
+      color: #bbb;
+      cursor: not-allowed;
+    }
+    .tab-btn:disabled:hover {
+      background: none;
+    }
+    .content {
+      flex: 1;
+      min-width: 0;
+      padding: 16px 20px;
+      max-width: 560px;
+      box-sizing: border-box;
+    }
+    .tab-panel {
+      display: none;
+    }
+    .tab-panel.active {
+      display: block;
+    }
+    .row {
+      margin: 6px 0;
+    }
+    label {
+      display: block;
+      margin-bottom: 4px;
+    }
+    textarea,
+    input[type="text"],
+    input[type="password"],
+    input[type="number"] {
+      width: 100%;
+      font: 12.5px/1.3 Arial, sans-serif;
+      padding: 6px 8px;
+      box-sizing: border-box;
+    }
+    select {
+      font: 12.5px/1.3 Arial, sans-serif;
+      padding: 6px 8px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: #fff;
+      color: #222;
+    }
+    input[type="number"] {
+      width: 110px;
+    }
+    textarea {
+      min-height: 90px;
+      font-family: monospace;
+    }
+    .hint {
+      color: #666;
+      font-size: 11px;
+      margin-top: 3px;
+    }
+    .site-box,
+    .option-box {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #fafafa;
+    }
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 12px;
+    }
+    .field-grid label {
+      margin-bottom: 2px;
+    }
+    .region-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .region-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .region-field label {
+      margin-bottom: 0;
+      font-size: 12px;
+      color: #333;
+    }
+    .region-field select {
+      width: 100%;
+    }
+    details {
+      margin-top: 6px;
+    }
+    summary {
+      cursor: pointer;
+      font-size: 12px;
+      color: #444;
+      padding: 4px 0;
+      user-select: none;
+    }
+    details[open] summary {
+      margin-bottom: 4px;
+    }
+    button.action-btn {
+      margin-top: 14px;
+      padding: 7px 14px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    #status {
+      margin-left: 10px;
+      color: #0a6;
+    }
+    .inline-field {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 6px 0;
+    }
+    .inline-field label {
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    .import-export-box {
+      margin-top: 28px;
+      padding-top: 16px;
+      border-top: 1px solid #e5e7eb;
+    }
+    .import-export-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .import-export-actions button {
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid #cfd3dc;
+      background: #fff;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .import-export-actions button:hover {
+      background: #f5f6f8;
+    }
+    #importExportStatus {
+      font-size: 12.5px;
+      color: #5b5c63;
+    }
+    #importExportStatus.ok { color: #0a7a3e; }
+    #importExportStatus.err { color: #b42318; }
+
+    .save-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 10px 20px;
+      background: #fff;
+      border-bottom: 1px solid #ddd;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .save-bar .support-us {
+      margin-left: auto;
+      font-size: 13px;
+      color: #2563eb;
+      text-decoration: none;
+    }
+    .save-bar .support-us:hover {
+      text-decoration: underline;
+    }
+    .custom-link-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 2fr auto;
+      gap: 6px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .custom-link-row input {
+      margin: 0;
+    }
+    .custom-link-remove-btn {
+      padding: 5px 8px;
+      font-size: 12px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .custom-link-add-btn {
+      margin-top: 4px;
+      padding: 5px 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>QuickCard - Movies and TV Info</h1>
+
+  <div class="save-bar">
+    <button class="action-btn" id="saveBtn" type="button">Save</button>
+    <a class="support-us" href="https://kargi.top/" target="_blank" rel="noopener noreferrer">Support us</a>
+    <span id="status"></span>
+  </div>
+
+  <div class="layout">
+    <nav class="sidebar">
+      <button class="tab-btn active" data-tab="general" type="button">General</button>
+      <button class="tab-btn" data-tab="movies" type="button">Movies &amp; TV</button>
+      <button class="tab-btn" data-tab="games" type="button" disabled>Games</button>
+      <button class="tab-btn" data-tab="music" type="button" disabled>Music</button>
+      <button class="tab-btn" data-tab="books" type="button" disabled>Books</button>
+      <button class="tab-btn" data-tab="football" type="button" disabled>Football</button>
+      <button class="tab-btn" data-tab="sports" type="button">Athletes</button>
+    </nav>
+
+    <div class="content">
+
+      <section id="tab-general" class="tab-panel active">
+         <h2>Popup Style</h2>
+        <div class="hint" style="margin-bottom: 6px;">Controls the hover QuickCard and selection search popups shown on a web page. The toolbar popup (clicking the extension icon) always shows Full.</div>
+        <div class="row">
+          <label><input type="radio" name="popupStyle" value="mini"> Mini - compact card</label>
+          <label><input type="radio" name="popupStyle" value="full" checked> Full - same as the toolbar popup</label>
+        </div>
+        <h2>Topics</h2>
+        <div class="option-box">
+        <div class="hint" style="margin-bottom: 6px;">Which topics QuickCard should search. At least one must stay checked - checking or unchecking one enables or disables its tab on the left.</div>
+        <div class="row">
+          <label><input type="checkbox" id="topic-movies" data-topic-checkbox="movies" checked> Movies &amp; TV</label>
+          <label><input type="checkbox" id="topic-games" data-topic-checkbox="games" checked> Games</label>
+          <label><input type="checkbox" id="topic-music" data-topic-checkbox="music" checked> Music</label>
+          <label><input type="checkbox" id="topic-books" data-topic-checkbox="books" checked> Books</label>
+          <label><input type="checkbox" id="topic-football" data-topic-checkbox="football" checked> Football</label>
+          <label><input type="checkbox" id="topic-sports" data-topic-checkbox="sports" checked> Athletes</label>
+        </div>
+        </div>
+
+        <h2>General</h2>
+        <div class="option-box">
+
+        <div class="row">
+          <label><input type="checkbox" id="featureLinkHover"> Enable hover QuickCard for supported links</label>
+          <label><input type="checkbox" id="featureContextMenuSearch"> Enable context menu search</label>
+          <label><input type="checkbox" id="featureTextSearch"> Enable selection search</label>
+          <label><input type="checkbox" id="googleSuggestEnabled"> Show Google search suggestions while typing</label>
+          <div class="inline-field">
+            <label for="selectionSearchDelayMs">Popup delay after selecting text (ms)</label>
+            <input type="number" id="selectionSearchDelayMs" min="0" step="50" placeholder="1000">
+          </div>
+          <div class="hint">How long to wait, in milliseconds, after you select text before the search icon appears next to it. Click that icon to open the popup.</div>
+        </div>
+        </div>
+
+        <h2>Site Rules (all topics)</h2>
+
+        <div class="option-box">
+
+        <div class="hint" style="margin-bottom: 6px;">
+          A single site list that applies to every topic. separate from each topic's own hover-only list on its own tab. This one can restrict the hover QuickCard, the text-selection popup, or both. It never affects context menu search or the toolbar popup, and those always still work everywhere.
+        </div>
+        <div class="row">
+          <label><input type="radio" name="globalSiteFilterMode" value="whitelist"> Only run on these sites</label>
+          <label><input type="radio" name="globalSiteFilterMode" value="blacklist" checked> Run on all sites except these</label>
+        </div>
+
+        <h4 style="margin-top: 10px;">Applies to</h4>
+        <div class="hint" style="margin-bottom: 6px;">Which feature(s) this list restricts.</div>
+        <div class="row">
+          <label><input type="radio" name="globalSiteRuleScope" value="hover"> Hover QuickCard only</label>
+          <label><input type="radio" name="globalSiteRuleScope" value="popup"> Text-selection popup only</label>
+          <label><input type="radio" name="globalSiteRuleScope" value="both" checked> Both</label>
+        </div>
+
+        <details style="margin-top: 10px;">
+          <summary>Whitelist / Blacklist site lists</summary>
+          <div class="site-box">
+            <label for="globalWhitelistSites">Whitelist</label>
+            <textarea id="globalWhitelistSites" placeholder="google.com&#10;wikipedia.org"></textarea>
+            <div class="hint">Used only when "Only run on these sites" is selected.</div>
+          </div>
+
+          <div class="site-box">
+            <label for="globalBlacklistSites">Blacklist</label>
+            <textarea id="globalBlacklistSites" placeholder="google.com"></textarea>
+            <div class="hint">Used only when "Run on all sites except these" is selected. Empty by default - add sites here (e.g. google.com) to stop the hover card and/or selection popup from getting in your way on them.</div>
+          </div>
+        </details>
+        </div>
+
+        <div class="import-export-box">
+          <h2>Backup</h2>
+          <div class="hint" style="margin-bottom: 6px;">
+            Export every setting to a text file (all topics: toggles, site rules, custom links, regions, …). Import replaces current settings with the file.
+          </div>
+          <div class="import-export-actions">
+            <button type="button" id="exportSettingsBtn">Export settings…</button>
+            <button type="button" id="importSettingsBtn">Import settings…</button>
+            <input type="file" id="importSettingsFile" accept=".json,.txt,application/json,text/plain" style="display:none;">
+            <span id="importExportStatus"></span>
+          </div>
+        </div>
+
+      </section>
+
+      <section id="tab-movies" class="tab-panel">
+        <h2>Movies & TV</h2>
+        <h2>General</h2>
+        <div class="option-box">
+          <div class="hint">
+            Shared fields for movie and series (and episode) cards.
+          </div>
+
+          <details open>
+            <summary>Fields to show</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="kargiFieldImdb"> IMDb rating</label>
+              <label><input type="checkbox" id="kargiFieldVotes"> IMDb vote count</label>
+              <label><input type="checkbox" id="kargiFieldRuntime"> Runtime</label>
+              <label><input type="checkbox" id="kargiFieldType"> Type</label>
+              <label><input type="checkbox" id="kargiFieldGenre"> Genre</label>
+              <label><input type="checkbox" id="kargiFieldActors"> Actors</label>
+              <label><input type="checkbox" id="showAwards"> Notable Awards</label>
+              <label><input type="checkbox" id="showBookSourceLink"> Based on the book (links to Books pack)</label>
+            </div>
+            <div class="hint">
+              Awards on a movie page show Academy / Golden Globe; on a series page, Golden Globe / Emmy. “Based on the book” applies to both movies and series when an Open Library match exists.
+            </div>
+          </details>
+
+          <details open>
+            <summary>Cast</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="showActorPhotos"> Show actor photos</label>
+            </div>
+            <div class="row">
+              <label for="actorPhotoCount">Number of cast members shown (3–10)</label>
+              <input type="number" id="actorPhotoCount" min="3" max="10" step="1" style="width: 60px;">
+            </div>
+
+          </details>
+        </div>
+
+        <h2>Ratings</h2>
+        <div class="option-box">
+          <div class="hint">
+            Extra scores shown on movie and series cards.
+          </div>
+          <details open>
+            <summary>Scores to show</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="ratingFieldRottenTomatoes"> Rotten Tomatoes</label>
+              <label><input type="checkbox" id="ratingFieldMetacritic"> Metacritic</label>
+              <label><input type="checkbox" id="ratingFieldLetterboxd"> Letterboxd</label>
+              <label><input type="checkbox" id="ratingFieldTmdb"> TMDb</label>
+              <label><input type="checkbox" id="ratingFieldTrakt"> Trakt</label>
+              <label><input type="checkbox" id="malFieldScore"> MyAnimeList score (anime only)</label>
+            </div>
+            <div class="hint">
+              RT / Metacritic / Letterboxd / TMDb / Trakt come from whatson-api (user and critic scores where available). MAL score only appears when the title is detected as anime.
+            </div>
+          </details>
+        </div>
+
+        <h2>Movie</h2>
+        <div class="option-box">
+          <details open>
+            <summary>Fields to show</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="titleFieldDirector"> Director</label>
+              <label><input type="checkbox" id="kargiFieldWriter"> Writer</label>
+              <label><input type="checkbox" id="movieFieldCountry"> Country</label>
+              <label><input type="checkbox" id="movieFieldPlot"> Plot / description</label>
+              <label><input type="checkbox" id="showBoxOffice"> Box Office (Domestic, International, Worldwide, Budget)</label>
+              <label><input type="checkbox" id="ratingFieldCinemaScore" checked> CinemaScore grade (opening weekend)</label>
+            </div>
+
+          </details>
+        </div>
+
+        <h2>Series</h2>
+        <div class="option-box">
+          <details open>
+            <summary>Fields to show</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="tvmazeFieldCreator"> Creator</label>
+              <label><input type="checkbox" id="tvmazeFieldEpisodes"> Next / last episode dates</label>
+              <label><input type="checkbox" id="tvmazeFieldStatus"> Series status</label>
+              <label><input type="checkbox" id="tvmazeFieldNetwork"> Network / schedule</label>
+              <label><input type="checkbox" id="tvmazeFieldSummary"> Plot / description</label>
+              <label><input type="checkbox" id="tvmazeFieldCountry"> Country</label>
+              <label><input type="checkbox" id="seasonTableEnabled"> Episode ratings table</label>
+            </div>
+
+          </details>
+        </div>
+
+        <h2>People</h2>
+        <div class="option-box">
+          <details open>
+            <summary>Fields to show</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="personFieldAge"> Age</label>
+              <label><input type="checkbox" id="personFieldBorn"> Born</label>
+              <label><input type="checkbox" id="personFieldBirthPlace"> Birth place</label>
+              <label><input type="checkbox" id="personFieldOccupation"> Occupation</label>
+              <label><input type="checkbox" id="personFieldKnownFor"> Credits</label>
+              <label><input type="checkbox" id="personFieldKnownForImages" checked> Credits - poster thumbnails</label>
+              <label><input type="checkbox" id="personFieldBiography" checked> Short biography</label>
+              <label><input type="checkbox" id="personFieldAwards"> Notable Awards (Academy / Golden Globe / Emmy) </label>
+            </div>
+          </details>
+          <div class="hint">Age/Born/Birth place/Occupation/Biography come from Wikidata and depend on the accuracy and completeness of its community-edited records, and may not always be up to date.</div>
+        </div>
+
+        <h2>Site Links</h2>
+        <div class="option-box">
+          <div class="hint" style="margin-bottom: 6px;">Most of these come from Wikidata's cross-reference for the title, so they're only shown when that specific ID is on file.</div>
+
+          <details open>
+            <summary>Title - Ratings &amp; reviews</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="showRottenTomatoesLink"> Rotten Tomatoes</label>
+              <label><input type="checkbox" id="showMetacriticLink"> Metacritic</label>
+              <label><input type="checkbox" id="showTmdbLink"> TMDb</label>
+              <label><input type="checkbox" id="showLetterboxdLink"> Letterboxd - movies only</label>
+            </div>
+          </details>
+
+          <details open>
+            <summary>Title - Where to watch</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="showNetflixLink"> Netflix</label>
+              <label><input type="checkbox" id="showDisneyPlusLink"> Disney+</label>
+              <label><input type="checkbox" id="showHboMaxLink"> Max (HBO Max)</label>
+              <label><input type="checkbox" id="showPrimeVideoLink"> Prime Video</label>
+              <label><input type="checkbox" id="showAppleTvLink"> Apple TV</label>
+              <label><input type="checkbox" id="showPeacockLink"> Peacock</label>
+              <label><input type="checkbox" id="showHuluLink"> Hulu</label>
+            </div>
+            <div class="hint">These are links to the title's pages on supported services, if available. Their availability and accuracy depend on Wikidata.</div>
+          </details>
+
+          <details open>
+            <summary>Title - Anime</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="showMyAnimeListLink"> MyAnimeList</label>
+              <label><input type="checkbox" id="showAniListLink"> AniList</label>
+              <label><input type="checkbox" id="showCrunchyrollLink"> Crunchyroll</label>
+            </div>
+            <div class="hint">Links only.</div>
+          </details>
+
+          <details open>
+            <summary>Title - Other</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="showYoutubeSearchLink"> YouTube</label>
+              <label><input type="checkbox" id="showTraktLink"> Trakt</label>
+              <label><input type="checkbox" id="tvmazeShowLink"> TVmaze - series only</label>
+              <label><input type="checkbox" id="showPlexLink"> Plex</label>
+              <label><input type="checkbox" id="showTitleWikipediaLink" checked> Wikipedia</label>
+            </div>
+          </details>
+
+          <details open>
+            <summary>Person links</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="showWikipediaLink"> Wikipedia</label>
+              <label><input type="checkbox" id="showTwitterLink"> Twitter / X</label>
+              <label><input type="checkbox" id="showInstagramLink"> Instagram</label>
+              <label><input type="checkbox" id="showOfficialWebsiteLink"> Official website</label>
+              <label><input type="checkbox" id="showLetterboxdActorLink"> Letterboxd</label>
+            </div>
+          </details>
+
+        </div>
+
+        <details>
+          <summary>Site Rules</summary>
+          <div class="hint" style="margin-bottom: 6px;">Controls only the hover QuickCard on IMDb links. Selecting text and the context menu always still work everywhere — see "Site Rules (all topics)" on the General tab to restrict those.</div>
+          <div class="row">
+            <label><input type="radio" name="siteFilterMode" value="whitelist"> Only run on these sites</label>
+            <label><input type="radio" name="siteFilterMode" value="blacklist" checked> Run on all sites except these</label>
+          </div>
+          <div class="site-box">
+            <label for="whitelistSites">Whitelist</label>
+            <textarea id="whitelistSites" placeholder="google.com&#10;wikipedia.org"></textarea>
+            <div class="hint">Used only when "Only run on these sites" is selected.</div>
+          </div>
+          <div class="site-box">
+            <label for="blacklistSites">Blacklist</label>
+            <textarea id="blacklistSites" placeholder="imdb.com"></textarea>
+            <div class="hint">Used only when "Run on all sites except these" is selected.</div>
+          </div>
+        </details>
+
+        <details>
+          <summary>Custom Links</summary>
+          <div class="hint" style="margin-bottom: 6px;">
+            Add your own link buttons under a card (titles and people). Built from a URL template you provide — no API involved. If the target site uses a different slug format than you expect, the link may not resolve to the right page.
+          </div>
+          <div class="hint" style="margin-bottom: 6px;">
+            Placeholders: <code>{imdb_id}</code> (e.g. tt0133093 or nm0000138),
+            <code>{title}</code> (URL-encoded name),
+            <code>{title_dash}</code> (lowercase-dashed slug).
+          </div>
+          <div id="customLinksContainer"></div>
+          <button class="custom-link-add-btn" id="addCustomLinkBtn" type="button">+ Add link</button>
+        </details>
+      </section>
+      <section id="tab-games" class="tab-panel">
+        <h2>Games</h2>
+
+        <h2>Card</h2>
+        <div class="option-box">
+
+          <details open>
+            <summary>Fields to show</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="gamesFieldPublisher" checked> Publisher</label>
+              <label><input type="checkbox" id="gamesFieldDeveloper" checked> Developer</label>
+              <label><input type="checkbox" id="gamesFieldSynopsis" checked> Synopsis - Full style only</label>
+              <label><input type="checkbox" id="gamesFieldMetascore" checked> Metascore</label>
+              <label><input type="checkbox" id="gamesShowSteamRating" checked> Steam rating</label>
+              <label><input type="checkbox" id="gamesFieldSteamPrice" checked> Steam price</label>
+              <label><input type="checkbox" id="gamesFieldPlayStationPrice" checked> PlayStation price</label>
+              <label><input type="checkbox" id="gamesFieldXboxPrice" checked> Xbox price</label>
+              <label><input type="checkbox" id="gamesFieldSystemRequirements" checked> System requirements (Minimum/Recommended)</label>
+              <label><input type="checkbox" id="gamesFieldSteamTags" checked> Steam tags (categories)</label>
+            </div>
+          </details>
+        </div>
+
+        <h2>Store Regions</h2>
+        <div class="option-box">
+          <div class="hint" style="margin-bottom: 6px;">Which regional storefront to use for pricing and availability. Affects currency and what is listed as available.</div>
+          <div class="region-grid">
+            <div class="region-field">
+              <label for="gamesSteamRegion">Steam</label>
+              <select id="gamesSteamRegion"></select>
+            </div>
+            <div class="region-field">
+              <label for="gamesPlayStationRegion">PlayStation Store</label>
+              <select id="gamesPlayStationRegion"></select>
+            </div>
+            <div class="region-field">
+              <label for="gamesXboxRegion">Microsoft Store</label>
+              <select id="gamesXboxRegion"></select>
+            </div>
+          </div>
+        </div>
+
+        <h2>Site Links</h2>
+        <div class="option-box">
+          <div class="hint" style="margin-bottom: 6px;">Links shown under the card.</div>
+
+
+
+          <details open>
+            <summary>Info</summary>
+            <div class="field-grid">
+
+              <label><input type="checkbox" id="gamesShowMetacriticLink" checked> Metacritic</label>
+              <label><input type="checkbox" id="gamesShowOfficialWebsiteLink" checked> Official website</label>
+              <label><input type="checkbox" id="gamesShowWikipediaLink" checked> Wikipedia</label>
+              <label><input type="checkbox" id="gamesShowYoutubeLink" checked> YouTube - search by title</label>
+            </div>
+          </details>
+
+          <details open>
+            <summary>Search Stores</summary>
+            <div class="hint" style="margin-bottom: 6px;">A row of search links for major stores matching the game’s platforms (PC, PlayStation, Xbox, Nintendo, mobile).</div>
+            <label><input type="checkbox" id="gamesShowStoreSearch" checked> Show Search Stores row</label>
+          </details>
+
+          <details open>
+            <summary>Price Comparison</summary>
+            <div class="hint" style="margin-bottom: 6px;">Search links to deal-tracking sites. CheapShark covers PC only.</div>
+            <div class="field-grid">
+              <label><input type="checkbox" id="gamesShowIsThereAnyDealLink" checked> IsThereAnyDeal</label>
+              <label><input type="checkbox" id="gamesShowPSPriceLink" checked> PSPrice</label>
+              <label><input type="checkbox" id="gamesShowGGDealsLink" checked> GG.deals</label>
+              <label><input type="checkbox" id="gamesShowCheapSharkLink" checked> CheapShark</label>
+            </div>
+          </details>
+        </div>
+
+        <details>
+          <summary>Site Rules</summary>
+          <div class="hint" style="margin-bottom: 6px;">Controls only the hover QuickCard on GameSpot links. Selecting text and the context menu always still work everywhere — see "Site Rules (all topics)" on the General tab to restrict those.</div>
+          <div class="row">
+            <label><input type="radio" name="siteFilterMode-games" value="whitelist"> Only run on these sites</label>
+            <label><input type="radio" name="siteFilterMode-games" value="blacklist" checked> Run on all sites except these</label>
+          </div>
+          <div class="site-box">
+            <label for="whitelistSites-games">Whitelist</label>
+            <textarea id="whitelistSites-games" placeholder="google.com&#10;wikipedia.org"></textarea>
+            <div class="hint">Used only when "Only run on these sites" is selected.</div>
+          </div>
+          <div class="site-box">
+            <label for="blacklistSites-games">Blacklist</label>
+            <textarea id="blacklistSites-games" placeholder="gamespot.com"></textarea>
+            <div class="hint">Used only when "Run on all sites except these" is selected.</div>
+          </div>
+        </details>
+
+        <details>
+          <summary>Custom Links</summary>
+          <div class="hint" style="margin-bottom: 6px;">
+            Add your own link buttons under a card. Built from a URL template you provide — no API involved. If the target site uses a different slug format than you expect, the link may not resolve to the right page.
+          </div>
+          <div class="hint" style="margin-bottom: 6px;">
+            Placeholders: <code>{title}</code> (URL-encoded name), <code>{title_dash}</code> (lowercase-dashed slug).
+          </div>
+          <div id="customLinksContainer-games"></div>
+          <button class="custom-link-add-btn" data-topic="games" type="button">+ Add link</button>
+        </details>
+      </section>
+
+      <section id="tab-music" class="tab-panel">
+        <h2>Music</h2>
+
+        <h2>Artist</h2>
+        <div class="option-box">
+          <div class="hint">
+            Fields shown on artist cards.
+          </div>
+          <details open>
+            <summary>Fields to show</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="musicFieldArtistGenre" checked> Genre</label>
+              <label><input type="checkbox" id="musicFieldArtistCountry" checked> Country</label>
+              <label><input type="checkbox" id="musicFieldArtistFormed" checked> Formed / active since</label>
+              <label><input type="checkbox" id="musicFieldArtistAlbums" checked> Albums list</label>
+              <label><input type="checkbox" id="musicFieldArtistTopTracks" checked> Top tracks</label>
+              <label><input type="checkbox" id="musicFieldArtistSimilar" checked> Similar artists</label>
+              <label><input type="checkbox" id="musicFieldMBArtistTags" checked> Tags</label>
+              <label><input type="checkbox" id="musicFieldArtistBio" checked> Biography</label>
+              <label><input type="checkbox" id="musicFieldArtistGrammy" checked> Grammy Awards</label>
+            </div>
+          </details>
+        </div>
+
+        <h2>Album</h2>
+        <div class="option-box">
+          <div class="hint">
+            Fields shown on album cards.
+          </div>
+          <details open>
+            <summary>Fields to show</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="musicFieldAlbumArtist" checked> Artist</label>
+              <label><input type="checkbox" id="musicFieldAlbumGenre" checked> Genre</label>
+              <label><input type="checkbox" id="musicFieldAlbumReleaseDate" checked> Release date</label>
+              <label><input type="checkbox" id="musicFieldAlbumOriginalReleaseDate" checked> Original release date</label>
+              <label><input type="checkbox" id="musicFieldAlbumTrackCount" checked> Track count</label>
+              <label><input type="checkbox" id="musicFieldAlbumTracks" checked> Track list</label>
+              <label><input type="checkbox" id="musicFieldMBAlbumTags" checked> Tags</label>
+              <label><input type="checkbox" id="musicFieldTADBAlbumSales" checked> Sales</label>
+              <label><input type="checkbox" id="musicFieldTADBAlbumLabel" checked> Label</label>
+              <label><input type="checkbox" id="musicFieldTADBMood" checked> Mood</label>
+              <label><input type="checkbox" id="musicFieldTADBTheme" checked> Theme</label>
+              <label><input type="checkbox" id="musicFieldTADBFormat" checked> Format</label>
+              <label><input type="checkbox" id="musicFieldTADBTempo" checked> Tempo</label>
+              <label><input type="checkbox" id="musicFieldAlbumGrammy" checked> Grammy Awards</label>
+            </div>
+          </details>
+        </div>
+
+        <h2>Track</h2>
+        <div class="option-box">
+          <div class="hint">
+            Fields shown on track cards.
+          </div>
+          <details open>
+            <summary>Fields to show</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="musicFieldTrackArtist" checked> Artist</label>
+              <label><input type="checkbox" id="musicFieldTrackAlbum" checked> Album</label>
+              <label><input type="checkbox" id="musicFieldTrackGenre" checked> Genre</label>
+              <label><input type="checkbox" id="musicFieldTrackReleaseDate" checked> Release date</label>
+              <label><input type="checkbox" id="musicFieldTrackOriginalReleaseDate" checked> Original release date</label>
+              <label><input type="checkbox" id="musicFieldTrackDuration" checked> Duration</label>
+              <label><input type="checkbox" id="musicFieldTrackTempo" checked> Tempo (BPM)</label>
+              <label><input type="checkbox" id="musicFieldTrackPreview" checked> Preview player</label>
+              <label><input type="checkbox" id="musicFieldTrackLyrics" checked> Lyrics</label>
+              <label><input type="checkbox" id="musicFieldMBTrackTags" checked> Tags</label>
+              <label><input type="checkbox" id="musicFieldTrackGrammy" checked> Grammy Awards</label>
+            </div>
+          </details>
+        </div>
+
+        <h2>Site Links</h2>
+        <div class="option-box">
+          <div class="hint" style="margin-bottom: 6px;">Links shown under the card.</div>
+
+          <details open>
+            <summary>Listen / Streaming</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="musicShowDeezerLink" checked> Deezer</label>
+              <label><input type="checkbox" id="musicShowSpotifyLink" checked> Spotify (search)</label>
+              <label><input type="checkbox" id="musicShowAppleMusicLink" checked> Apple Music (search)</label>
+              <label><input type="checkbox" id="musicShowYoutubeMusicLink" checked> YouTube Music (search)</label>
+            </div>
+          </details>
+
+          <details open>
+            <summary>Info &amp; other</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="musicShowYoutubeLink" checked> YouTube (search)</label>
+              <label><input type="checkbox" id="musicShowMusicBrainzLink" checked> MusicBrainz (search)</label>
+              <label><input type="checkbox" id="musicShowLastFmLink" checked> Last.fm</label>
+              <label><input type="checkbox" id="musicShowTheAudioDBLink" checked> TheAudioDB</label>
+              <label><input type="checkbox" id="musicShowWikipediaLink" checked> Wikipedia</label>
+            </div>
+          </details>
+        </div>
+
+        <details>
+          <summary>Site Rules</summary>
+          <div class="hint" style="margin-bottom: 6px;">Controls only the hover QuickCard on Deezer links. Selecting text and the context menu always still work everywhere — see "Site Rules (all topics)" on the General tab to restrict those.</div>
+          <div class="row">
+            <label><input type="radio" name="siteFilterMode-music" value="whitelist"> Only run on these sites</label>
+            <label><input type="radio" name="siteFilterMode-music" value="blacklist" checked> Run on all sites except these</label>
+          </div>
+          <div class="site-box">
+            <label for="whitelistSites-music">Whitelist</label>
+            <textarea id="whitelistSites-music" placeholder="google.com&#10;wikipedia.org"></textarea>
+            <div class="hint">Used only when "Only run on these sites" is selected.</div>
+          </div>
+          <div class="site-box">
+            <label for="blacklistSites-music">Blacklist</label>
+            <textarea id="blacklistSites-music" placeholder="deezer.com"></textarea>
+            <div class="hint">Used only when "Run on all sites except these" is selected.</div>
+          </div>
+        </details>
+
+        <details>
+          <summary>Custom Links</summary>
+          <div class="hint" style="margin-bottom: 6px;">
+            Add your own link buttons under a card. Built from a URL template you provide — no API involved. If the target site uses a different slug format than you expect, the link may not resolve to the right page.
+          </div>
+          <div class="hint" style="margin-bottom: 6px;">
+            Placeholders: <code>{title}</code> (track/album/artist name, URL-encoded), <code>{artist}</code> (artist name when available), <code>{title_dash}</code>.
+          </div>
+          <div id="customLinksContainer-music"></div>
+          <button class="custom-link-add-btn" data-topic="music" type="button">+ Add link</button>
+        </details>
+      </section>
+
+      <section id="tab-books" class="tab-panel">
+        <h2>Books</h2>
+
+        <h2>Book</h2>
+        <div class="option-box">
+          <div class="hint">
+            Title, cover, author, pages, and first published year always show.
+          </div>
+          <details open>
+            <summary>Fields to show</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="booksFieldDescription" checked> Description</label>
+              <label><input type="checkbox" id="booksFieldFirstSentence" checked> First sentence</label>
+              <label><input type="checkbox" id="booksFieldSubjects" checked> Subjects</label>
+              <label><input type="checkbox" id="booksFieldFirstEdition" checked> First edition details</label>
+              <label><input type="checkbox" id="booksFieldRatings" checked> Ratings &amp; want-to-read stats</label>
+              <label><input type="checkbox" id="booksFieldCommunity" checked> Community genres &amp; mood</label>
+              <label><input type="checkbox" id="booksFieldSeries" checked> Series</label>
+              <label><input type="checkbox" id="booksFieldAdaptations" checked> Film/TV adaptations</label>
+            </div>
+            <div class="hint">
+              Series and adaptations come from Wikidata and only appear when a matching entry exists.
+            </div>
+          </details>
+        </div>
+
+        <h2>Author</h2>
+        <div class="option-box">
+          <div class="hint">
+            Name and photo always show.
+          </div>
+          <details open>
+            <summary>Fields to show</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="booksFieldAuthorBorn" checked> Born / Died</label>
+              <label><input type="checkbox" id="booksFieldAuthorBirthplace" checked> Birthplace</label>
+              <label><input type="checkbox" id="booksFieldAuthorOccupation" checked> Occupation</label>
+              <label><input type="checkbox" id="booksFieldAuthorBio" checked> Biography</label>
+              <label><input type="checkbox" id="booksFieldAuthorWorks" checked> Books written</label>
+              <label><input type="checkbox" id="booksFieldAuthorAdaptations" checked> In media / adaptations</label>
+              <label><input type="checkbox" id="booksFieldAuthorAwards" checked> Major literary awards</label>
+            </div>
+            <div class="hint">
+              Birthplace, Occupation, adaptations, and awards come from Wikidata and depend on the accuracy of its records.
+            </div>
+          </details>
+        </div>
+
+        <h2>Site Links</h2>
+        <div class="option-box">
+          <div class="hint" style="margin-bottom: 6px;">Links shown under the card.</div>
+
+          <details open>
+            <summary>Info</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="booksShowOpenLibraryLink" checked> Open Library</label>
+              <label><input type="checkbox" id="booksShowWikipediaLink" checked> Wikipedia</label>
+              <label><input type="checkbox" id="booksShowGoodreadsLink" checked> Goodreads</label>
+              <label><input type="checkbox" id="booksShowGoogleBooksLink" checked> Google Books</label>
+              <label><input type="checkbox" id="booksShowYoutubeLink" checked> YouTube (search)</label>
+            </div>
+          </details>
+
+          <details open>
+            <summary>Buy / Listen</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="booksShowAmazonLink" checked> Amazon (search)</label>
+              <label><input type="checkbox" id="booksShowBarnesNobleLink" checked> Barnes &amp; Noble (search)</label>
+              <label><input type="checkbox" id="booksShowKoboLink" checked> Kobo ebook (search)</label>
+              <label><input type="checkbox" id="booksShowAudibleLink" checked> Audible audiobook (search)</label>
+            </div>
+          </details>
+        </div>
+
+        <details>
+          <summary>Site Rules</summary>
+          <div class="hint" style="margin-bottom: 6px;">Controls only the hover QuickCard on Open Library links. Selecting text and the context menu always still work everywhere — see "Site Rules (all topics)" on the General tab to restrict those.</div>
+          <div class="row">
+            <label><input type="radio" name="siteFilterMode-books" value="whitelist"> Only run on these sites</label>
+            <label><input type="radio" name="siteFilterMode-books" value="blacklist" checked> Run on all sites except these</label>
+          </div>
+          <div class="site-box">
+            <label for="whitelistSites-books">Whitelist</label>
+            <textarea id="whitelistSites-books" placeholder="google.com&#10;wikipedia.org"></textarea>
+            <div class="hint">Used only when "Only run on these sites" is selected.</div>
+          </div>
+          <div class="site-box">
+            <label for="blacklistSites-books">Blacklist</label>
+            <textarea id="blacklistSites-books" placeholder="openlibrary.org"></textarea>
+            <div class="hint">Used only when "Run on all sites except these" is selected.</div>
+          </div>
+        </details>
+
+        <details>
+          <summary>Custom Links</summary>
+          <div class="hint" style="margin-bottom: 6px;">
+            Add your own link buttons under a card. Built from a URL template you provide — no API involved. If the target site uses a different slug format than you expect, the link may not resolve to the right page.
+          </div>
+          <div class="hint" style="margin-bottom: 6px;">
+            Placeholders: <code>{isbn}</code>, <code>{ol_id}</code>, <code>{author}</code>, <code>{title}</code>, <code>{title_dash}</code>. Also used on author cards (<code>{title}</code> / <code>{ol_id}</code> = author name / id).
+          </div>
+          <div id="customLinksContainer-books"></div>
+          <button class="custom-link-add-btn" data-topic="books" type="button">+ Add link</button>
+        </details>
+      </section>
+
+      <section id="tab-football" class="tab-panel">
+        <h2>Football</h2>
+
+        <h2>Player</h2>
+        <div class="option-box">
+          <div class="hint">
+            Name, photo, club, position, age, and the main stat tiles always show.
+          </div>
+          <details open>
+            <summary>Fields to show</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="footballFieldNationality" checked> Nationality (also covers place of birth)</label>
+              <label><input type="checkbox" id="footballFieldDateOfBirth" checked> Date of birth</label>
+              <label><input type="checkbox" id="footballFieldPhysical" checked> Height / preferred foot</label>
+              <label><input type="checkbox" id="footballFieldContract" checked> Contract expires</label>
+              <label><input type="checkbox" id="footballFieldAgent" checked> Agent</label>
+              <label><input type="checkbox" id="footballFieldMarketValue" checked> Market value</label>
+              <label><input type="checkbox" id="footballFieldLastTransfer" checked> Last transfer</label>
+              <label><input type="checkbox" id="footballFieldInjuryBadge" checked> Injury badge</label>
+              <label><input type="checkbox" id="footballFieldLoanBadge" checked> Loan badge</label>
+              <label><input type="checkbox" id="footballFieldHonours" checked> Honours (trophies strip)</label>
+              <label><input type="checkbox" id="footballFieldPlayerNextMatches" checked> Club's next matches</label>
+              <label><input type="checkbox" id="footballFieldPlayerPrevMatches" checked> Club's previous matches</label>
+              <label><input type="checkbox" id="footballFieldNationalTeamCareer" checked> National team career table</label>
+              <label><input type="checkbox" id="footballFieldCurrentSeasonStats" checked> Current season stats</label>
+              <label><input type="checkbox" id="footballFieldCareerTotalStats" checked> Career total stats</label>
+              <label><input type="checkbox" id="footballFieldFutRating" checked> FUT Rating badge (EA Sports FC, active players only)</label>
+            </div>
+          </details>
+        </div>
+
+        <h2>Team</h2>
+        <div class="option-box">
+          <div class="hint">
+            Crest, name, league, squad overview, and manager always show.
+          </div>
+          <details open>
+            <summary>Fields to show</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="footballFieldTeamMarketValue" checked> Market value</label>
+              <label><input type="checkbox" id="footballFieldTeamTopPlayers" checked> Player list</label>
+              <label><input type="checkbox" id="footballFieldTeamTopPlayersPhotos" checked> Player list photos</label>
+              <label><input type="checkbox" id="footballFieldTeamHonours" checked> Honours (trophies)</label>
+              <label><input type="checkbox" id="footballFieldTeamNextMatches" checked> Next matches</label>
+              <label><input type="checkbox" id="footballFieldTeamPrevMatches" checked> Previous matches</label>
+            </div>
+          </details>
+        </div>
+
+        <h2>Coach</h2>
+        <div class="option-box">
+          <div class="hint">
+            Name, photo, role, age, current club, and basic career line always show.
+          </div>
+          <details open>
+            <summary>Fields to show</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="footballFieldCoachHonours" checked> Honours (trophies strip)</label>
+              <label><input type="checkbox" id="footballFieldCoachContract" checked> Contract until</label>
+              <label><input type="checkbox" id="footballFieldCoachLicence" checked> Coaching licence</label>
+              <label><input type="checkbox" id="footballFieldCoachFormation" checked> Preferred formation</label>
+              <label><input type="checkbox" id="footballFieldCoachAvgTerm" checked> Avg. term as coach</label>
+              <label><input type="checkbox" id="footballFieldCoachAgent" checked> Agent</label>
+            </div>
+          </details>
+        </div>
+
+        <h2>Site Links</h2>
+        <div class="option-box">
+          <div class="hint" style="margin-bottom: 6px;">Shared by Player, Team, and Coach cards.</div>
+
+          <details open>
+            <summary>Links to show</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="footballShowTransfermarktLink" checked> Transfermarkt</label>
+              <label><input type="checkbox" id="footballShowWikipediaLink" checked> Wikipedia</label>
+              <label><input type="checkbox" id="footballShowOfficialSiteLink" checked> Official website</label>
+              <label><input type="checkbox" id="footballShowSoccerwayLink" checked> Soccerway</label>
+              <label><input type="checkbox" id="footballShowWhoscoredLink" checked> WhoScored search</label>
+              <label><input type="checkbox" id="footballShowYoutubeLink" checked> YouTube search</label>
+              <label><input type="checkbox" id="footballShowSofifaLink" checked> SoFIFA search (FIFA game)</label>
+              <label><input type="checkbox" id="footballShowFutbinLink" checked> Futbin search (FIFA game)</label>
+            </div>
+          </details>
+        </div>
+
+        <details>
+          <summary>Site Rules</summary>
+          <div class="hint" style="margin-bottom: 6px;">Controls only the hover QuickCard on Transfermarkt links. Selecting text and the context menu always still work everywhere — see "Site Rules (all topics)" on the General tab to restrict those.</div>
+          <div class="row">
+            <label><input type="radio" name="siteFilterMode-football" value="whitelist"> Only run on these sites</label>
+            <label><input type="radio" name="siteFilterMode-football" value="blacklist" checked> Run on all sites except these</label>
+          </div>
+          <div class="site-box">
+            <label for="whitelistSites-football">Whitelist</label>
+            <textarea id="whitelistSites-football" placeholder="google.com&#10;wikipedia.org"></textarea>
+            <div class="hint">Used only when "Only run on these sites" is selected.</div>
+          </div>
+          <div class="site-box">
+            <label for="blacklistSites-football">Blacklist</label>
+            <textarea id="blacklistSites-football" placeholder="transfermarkt.com"></textarea>
+            <div class="hint">Used only when "Run on all sites except these" is selected.</div>
+          </div>
+        </details>
+
+        <details>
+          <summary>Custom Links</summary>
+          <div class="hint" style="margin-bottom: 6px;">
+            Add your own link buttons under a card. Built from a URL template you provide — no API involved. If the target site uses a different slug format than you expect, the link may not resolve to the right page.
+          </div>
+          <div class="hint" style="margin-bottom: 6px;">
+            Placeholders: <code>{title}</code> (player/coach/team name, URL-encoded).
+          </div>
+          <div id="customLinksContainer-football"></div>
+          <button class="custom-link-add-btn" data-topic="football" type="button">+ Add link</button>
+        </details>
+      </section>
+
+      <section id="tab-sports" class="tab-panel">
+        <h2>Athletes</h2>
+
+        <h2>Card</h2>
+        <div class="option-box">
+          <div class="hint">
+            Name and photo always show. Shared fields apply across sports; each sport section only affects that sport’s card.
+          </div>
+
+          <details open>
+            <summary>Shared fields</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="sportsFieldCountry" checked> Country</label>
+              <label><input type="checkbox" id="sportsFieldTeam" checked> Team / Club</label>
+              <label><input type="checkbox" id="sportsFieldHeight" checked> Height &amp; weight</label>
+              <label><input type="checkbox" id="sportsFieldSport" checked> Sport</label>
+              <label><input type="checkbox" id="sportsFieldCareerHighlights" checked> Career highlights</label>
+              <label><input type="checkbox" id="sportsFieldTitlesCount" checked> Titles summary</label>
+            </div>
+          </details>
+
+          <details open>
+            <summary>Team sports (NBA / NFL / MLB / NHL)</summary>
+            <div class="hint" style="margin-bottom: 6px;">Season stats, recent games, and awards on team-sport cards.</div>
+            <div class="field-grid">
+              <label><input type="checkbox" id="sportsFieldProStats" checked> Pro stats</label>
+              <label><input type="checkbox" id="sportsFieldEspnRecentGames" checked> Recent games</label>
+              <label><input type="checkbox" id="sportsFieldEspnNextGame" checked> Next game</label>
+              <label><input type="checkbox" id="sportsFieldEspnAwards" checked> Awards</label>
+            </div>
+          </details>
+
+          <details open>
+            <summary>Olympic sports</summary>
+            <div class="hint" style="margin-bottom: 6px;">Medal summary rows on Olympic-style cards (and Mini).</div>
+            <div class="field-grid">
+              <label><input type="checkbox" id="sportsFieldOlympicMedals" checked> Olympic medals</label>
+              <label><input type="checkbox" id="sportsFieldWorldChampionships" checked> World championship medals</label>
+              <label><input type="checkbox" id="sportsFieldContinentalChampionships" checked> Continental medals</label>
+            </div>
+          </details>
+
+          <details open>
+            <summary>Tennis</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="sportsFieldTennisRecord" checked> Career record</label>
+              <label><input type="checkbox" id="sportsFieldTennisTitles" checked> Career titles</label>
+              <label><input type="checkbox" id="sportsFieldTennisRankings" checked> Rankings (high / current)</label>
+              <label><input type="checkbox" id="sportsFieldTennisGrandSlams" checked> Grand Slam results</label>
+            </div>
+          </details>
+
+          <details open>
+            <summary>Cricket</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="sportsFieldCricketRole" checked> Role</label>
+              <label><input type="checkbox" id="sportsFieldCricketStyles" checked> Batting / bowling style</label>
+              <label><input type="checkbox" id="sportsFieldCricketClubs" checked> Clubs</label>
+              <label><input type="checkbox" id="sportsFieldCricketSpan" checked> International span</label>
+              <label><input type="checkbox" id="sportsFieldCricketStats" checked> Career stats table (Test/ODI/T20I)</label>
+            </div>
+          </details>
+
+          <details open>
+            <summary>Golf</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="sportsFieldGolfCareerWins" checked> Career wins (Majors / PGA / Pro)</label>
+              <label><input type="checkbox" id="sportsFieldGolfTour" checked> Tour &amp; turned pro</label>
+              <label><input type="checkbox" id="sportsFieldGolfSeason" checked> Season overview</label>
+              <label><input type="checkbox" id="sportsFieldGolfRankings" checked> Season rankings</label>
+              <label><input type="checkbox" id="sportsFieldGolfRecent" checked> Recent tournaments</label>
+            </div>
+          </details>
+
+          <details open>
+            <summary>MMA</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="sportsFieldMmaRecord" checked> Pro record (W-L-D)</label>
+              <label><input type="checkbox" id="sportsFieldMmaWeightClass" checked> Weight class</label>
+              <label><input type="checkbox" id="sportsFieldMmaStyle" checked> Style / stance</label>
+              <label><input type="checkbox" id="sportsFieldMmaTeam" checked> Team / fighting out of</label>
+              <label><input type="checkbox" id="sportsFieldMmaBreakdown" checked> Win breakdown (KO / Sub / Dec)</label>
+            </div>
+          </details>
+
+          <details open>
+            <summary>Boxing</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="sportsFieldBoxingRecord" checked> Record</label>
+              <label><input type="checkbox" id="sportsFieldBoxingDivision" checked> Division</label>
+              <label><input type="checkbox" id="sportsFieldBoxingStance" checked> Stance</label>
+              <label><input type="checkbox" id="sportsFieldBoxingReach" checked> Reach</label>
+              <label><input type="checkbox" id="sportsFieldBoxingBreakdown" checked> Record breakdown (Wins / KO / Losses)</label>
+            </div>
+          </details>
+
+          <details open>
+            <summary>Kickboxing</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="sportsFieldKickboxingRecord" checked> Record</label>
+              <label><input type="checkbox" id="sportsFieldKickboxingWeightClass" checked> Weight class</label>
+              <label><input type="checkbox" id="sportsFieldKickboxingStyle" checked> Style / stance</label>
+              <label><input type="checkbox" id="sportsFieldKickboxingTeam" checked> Team</label>
+              <label><input type="checkbox" id="sportsFieldKickboxingBreakdown" checked> Record breakdown (Wins / KO / Losses)</label>
+            </div>
+          </details>
+
+          <details open>
+            <summary>Motorsport (F1 / MotoGP / WRC)</summary>
+            <div class="hint" style="margin-bottom: 6px;">Shown on the general card when motorsport data is available.</div>
+            <div class="field-grid">
+              <label><input type="checkbox" id="sportsFieldMotorsportProfile" checked> Profile (team, years, number)</label>
+              <label><input type="checkbox" id="sportsFieldMotorsportCareerStats" checked> Career stats (titles, wins, podiums, poles…)</label>
+              <label><input type="checkbox" id="sportsFieldMotorsportTimeline" checked> Career timeline (first/last entry, last season)</label>
+            </div>
+          </details>
+        </div>
+
+        <h2>Site Links</h2>
+        <div class="option-box">
+          <div class="hint" style="margin-bottom: 6px;">Links shown under the card.</div>
+
+          <details open>
+            <summary>Links to show</summary>
+            <div class="field-grid">
+              <label><input type="checkbox" id="sportsShowWikipediaLink" checked> Wikipedia</label>
+              <label><input type="checkbox" id="sportsShowEspnLink" checked> ESPN player page</label>
+              <label><input type="checkbox" id="sportsShowOlympicsLink" checked> Olympics.com</label>
+              <label><input type="checkbox" id="sportsShowOfficialLink" checked> Official site</label>
+              <label><input type="checkbox" id="sportsShowSofascoreLink" checked> SofaScore</label>
+              <label><input type="checkbox" id="sportsShowFlashscoreLink" checked> Flashscore</label>
+              <label><input type="checkbox" id="sportsShowSpecialtyLink" checked> Sport-specific specialty site</label>
+            </div>
+          </details>
+        </div>
+
+        <details>
+          <summary>Site Rules</summary>
+          <div class="hint" style="margin-bottom: 6px;">Athletes does not have a hover QuickCard yet, so this list currently has no effect. Selecting text and the context menu always still work everywhere — see "Site Rules (all topics)" on the General tab to restrict those.</div>
+          <div class="row">
+            <label><input type="radio" name="siteFilterMode-sports" value="whitelist"> Only run on these sites</label>
+            <label><input type="radio" name="siteFilterMode-sports" value="blacklist" checked> Run on all sites except these</label>
+          </div>
+          <div class="site-box">
+            <label for="whitelistSites-sports">Whitelist</label>
+            <textarea id="whitelistSites-sports" placeholder="google.com&#10;wikipedia.org"></textarea>
+            <div class="hint">Used only when "Only run on these sites" is selected.</div>
+          </div>
+          <div class="site-box">
+            <label for="blacklistSites-sports">Blacklist</label>
+            <textarea id="blacklistSites-sports"></textarea>
+            <div class="hint">Used only when "Run on all sites except these" is selected.</div>
+          </div>
+        </details>
+
+        <details>
+          <summary>Custom Links</summary>
+          <div class="hint" style="margin-bottom: 6px;">
+            Add your own link buttons under a card. Built from a URL template you provide — no API involved. If the target site uses a different slug format than you expect, the link may not resolve to the right page.
+          </div>
+          <div class="hint" style="margin-bottom: 6px;">
+            Placeholders: <code>{title}</code> (athlete name, URL-encoded), <code>{title_dash}</code>.
+          </div>
+          <div id="customLinksContainer-sports"></div>
+          <button class="custom-link-add-btn" data-topic="sports" type="button">+ Add link</button>
+        </details>
+      </section>
+
+    </div>
+  </div>
+
+
+  <script src="background/store-prices.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>
